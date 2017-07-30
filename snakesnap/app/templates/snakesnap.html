@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Snake Snap</title>
+ 
+ 
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a>
+                    </li>
+                  
+                    </li>
+                    <li role="presentation"><a href="{{url_for('showSignin')}}">Sign in</a>
+                    </li>
+                    <li role="presentation"><a href="{{url_for('snakesnap')}}">SnakeSnap</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Snake Snap version 0.5</h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1>Snake Snap</h1>
+            <!-- you are logged in/not logged in message-->
+            <h1>TODO: add a check for logged in not logged in.Users can use either way, but make it cleaar where they are </h1>
+            <p class="lead"></p>
+            <p><a class="btn btn-lg btn-success" href="{{url_for('showSignin')}}" role="button">Sign in with your email</a>
+            </p>
+        </div>
+<h1>Main Snake Snap functions here</h1>
+TODO
+        <footer class="footer">
+            <p>&copy; CU Denver Neuroscience Outreach 2017</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>
