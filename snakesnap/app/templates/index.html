@@ -14,11 +14,11 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#">Home</a>
+                    <li role="presentation" class="active"><a href="/">Home</a>
                     </li>
                   
                     </li>
-                    <li role="presentation"><a href="{{url_for('showSignin')}}">Sign in</a>
+                    <li role="presentation"><a href="{{url_for('signIn')}}">Sign in</a>
                     </li>
                     <li role="presentation"><a href="{{url_for('snakesnap')}}">SnakeSnap</a>
                     </li>
@@ -31,7 +31,7 @@
         <div class="jumbotron">
             <h1>Start Snake Snap here</h1>
             <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="{{url_for('showSignin')}}" role="button">Sign in with your email</a>
+            <p><a class="btn btn-lg btn-success" href="{{url_for('signIn')}}" role="button">Sign in with your email</a>
             </p>
         </div>
 {% endblock content %}

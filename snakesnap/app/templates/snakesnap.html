@@ -3,12 +3,13 @@
         <div class="jumbotron">
             <h1>Snake Snap</h1>
             <!-- you are logged in/not logged in message-->
+            <p>{{user}} is logged in</p> 
             <h1>TODO: add a check for logged in not logged in.Users can use either way, but make it cleaar where they are </h1>
             <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="{{url_for('showSignin')}}" role="button">Sign in with your email</a>
+            <p><a class="btn btn-lg btn-success" href="{{url_for('signIn')}}" role="button">Sign in with your email</a>
             </p>
         </div>
 <h1>Main Snake Snap functions here</h1>
 TODO
 
-{% endblock content}
+{% endblock content %}
