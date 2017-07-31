@@ -3,7 +3,7 @@ import json
 from flask import Flask
 from flask import render_template
 from flask import request
-
+from flask import flash
 
 
 app = Flask(__name__)
@@ -20,12 +20,13 @@ def showSignin():
 def snakesnap():
     return render_template('snakesnap.html')
 
-@app.route('/signIn')
+@app.route('/signIn', methods=['GET','POST'])
 def signIn():
-    _name = request.form['inputName']
-    _email = request.form['inputEmail']
-    _password = request.form['inputPassword']
-
+    if request.method == 'POST':
+        _name = request.form['inputName']
+        _email = request.form['inputEmail']
+        _password = request.form['inputPassword']
+        flash(_name)
     if _name and _email and _password:
         return render_template('home.html')
     else:

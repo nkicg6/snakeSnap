@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
- 
-<head>
-    <title>Snake Snap</title>
- 
- 
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
-</head>
- 
-<body>
- 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
-                    </li>
-                  
-                    </li>
-                    <li role="presentation"><a href="{{url_for('showSignin')}}">Sign in</a>
-                    </li>
-                    <li role="presentation"><a href="{{url_for('snakesnap')}}">SnakeSnap</a>
-                    </li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">Snake Snap version 0.5</h3>
-        </div>
- 
+{% extends "index.html" %}
+{% block content %}
         <div class="jumbotron">
             <h1>Snake Snap</h1>
             <!-- you are logged in/not logged in message-->
@@ -37,11 +10,5 @@
         </div>
 <h1>Main Snake Snap functions here</h1>
 TODO
-        <footer class="footer">
-            <p>&copy; CU Denver Neuroscience Outreach 2017</p>
-        </footer>
- 
-    </div>
-</body>
- 
-</html>
+
+{% endblock content}
