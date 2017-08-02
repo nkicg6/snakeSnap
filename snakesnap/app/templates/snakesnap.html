@@ -1,13 +1,12 @@
 {% extends "index.html" %}
 {% block content %}
         <div class="jumbotron">
-            <h1>Snake Snap</h1>
             <!-- you are logged in/not logged in message-->
-            <p>{{user}} is logged in</p> 
-            <h1>TODO: add a check for logged in not logged in.Users can use either way, but make it cleaar where they are </h1>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="{{url_for('signIn')}}" role="button">Sign in with your email</a>
-            </p>
+            {% if logon %}
+            <p>Welcome {{logon['name']}} you are logged in!</p>
+            {% else %}
+            <p> You are not logged in. Please click <a href="{{url_for('signIn')}}">here</a> to send emails</p>
+            {% endif %}           
         </div>
 <h1>Main Snake Snap functions here</h1>
 TODO
