@@ -1,5 +1,12 @@
 {% extends "index.html" %}
 {% block content %}
+{% if session['logged_in'] %}
+        <div class="jumbotron">
+            <h1>{{session['name'] you are already logged in}}</h1>
+            <a href="{{url_for(snakesnap)}}">Click here to continue to snakesnap</a>
+            <a href="{{url_for(logout)}}">Click here to logout</a>
+        </div>
+{% else %}
         <div class="jumbotron">
             <h1>Sign in to send pictures</h1>
             <form class="form-signin" method="post">
@@ -13,5 +20,5 @@
                 <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
         </div>
-
+{% endif %}
 {% endblock content %}
