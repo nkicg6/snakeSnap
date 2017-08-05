@@ -51,6 +51,21 @@ def logout():
     session['logged_in'] = False
     return home()
 
+
+@app.route('/snakesnap')
+def video_feed():
+    """TODO will contain video feed
+    https://github.com/miguelgrinberg/flask-video-streaming/blob/\
+    master/camera_pi.py"""
+    pass
+
+
+@app.route('/snakesnap')
+def get_files():
+    """ will return the file list if it exists"""
+    pass
+
+
 # Fix login and logout stuff. get that figured out as session cookies.
 # use this https://pythonspot.com/en/login-authentication-with-flask/
 # and http://flask.pocoo.org/docs/0.12/quickstart/
