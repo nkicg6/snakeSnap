@@ -1,3 +1,6 @@
-# -*- coding: utf-8 -*-
+#!/usr/env/python
+"""Main user entrance to module."""
 
-"""Main module."""
+import os
+os.system("python setup.py")
+os.system("python app.py")
