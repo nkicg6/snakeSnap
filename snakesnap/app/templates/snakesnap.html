@@ -1,14 +1,12 @@
-{% extends "index.html" %}
+{% extends "header_footer.html" %}
 {% block content %}
         <div class="jumbotron">
             <!-- you are logged in/not logged in message-->
-            {% if logon %}
-            <p>Welcome {{logon['name']}} you are logged in!</p>
+            {% if username %}
+            <p>Welcome {{session['username']}} you are logged in!</p>
             {% else %}
-            <p> You are not logged in. Please click <a href="{{url_for('signIn')}}">here</a> to send emails</p>
-            {% endif %}           
+            <p> You are not logged in. Please click <a href="{{url_for('signin')}}">here</a> to send emails</p>
+            {% endif %}
         </div>
-<h1>Main Snake Snap functions here</h1>
-TODO
-
+<h3> Snake snap functions here </h3>           
 {% endblock content %}

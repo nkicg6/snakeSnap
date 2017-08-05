@@ -31,7 +31,7 @@ def update_json(parsed_config):
         print('json updated')
 
 
-def write_email(parsed_config, name, split_name):
+def write_email(parsed_config, username, split_name):
     """
     write email info from the json dict, and attach the picture
     """
@@ -93,4 +93,4 @@ def thermal_pic(image_name):
     bigger = misc.imresize(a, (480, 640), interp = 'bilinear')
     # save it
     plt.imsave(image_name, bigger, cmap = cmap)
-    print('picture saved as ' + image_name)
+    print('picture saved as ' + image_namen)

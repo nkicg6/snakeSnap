@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
- 
-<head>
+ <head>
     <title>Snake Snap</title>
  
  
     <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
 </head>
- 
 <body>
- 
     <div class="container">
         <div class="header">
             {% with messages = get_flashed_messages() %}
@@ -27,25 +24,21 @@
                 <ul class="nav nav-pills pull-right">
                     <li role="presentation" class="active"><a href="/">Home</a>
                     </li>
-                  
-                    </li>
-                    <li role="presentation"><a href="{{url_for('signIn')}}">Sign in</a>
-                    </li>
                     <li role="presentation"><a href="{{url_for('snakesnap')}}">SnakeSnap</a>
                     </li>
+                    {% if session['logged_in']== True %}
+                    <li role="presentation"><a href="{{url_for('logout')}}">Logout</a>
+                        {% else %}
+                    <li role="presentation"><a href="{{url_for('signin')}}">Sign in</a>
+                    </li>                        
+                    {% endif %}
                 </ul>
             </nav>
             <h3 class="text-muted">Snake Snap version 0.5</h3>
         </div>
  <!-- end header-->
 {% block content %}
-        <div class="jumbotron">
-            <h1>Welcome to SnakeSnap! </h1>
-            <h3>Login to send emails or click SnakeSnap at the top to begin without loggin in</h3>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="{{url_for('signIn')}}" role="button">Sign in with your email</a>
-            </p>
-        </div>
+
 {% endblock content %}
 <!--footer-->
         <footer class="footer">
@@ -53,6 +46,5 @@
         </footer>
  
     </div>
-</body>
- 
+</body> 
 </html>

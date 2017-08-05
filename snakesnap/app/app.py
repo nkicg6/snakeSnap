@@ -1,51 +1,55 @@
 """flask UI for snakesnap"""
-import json
+import os
 from flask import Flask
 from flask import render_template
-import os
 from flask import request
+from flask import flash
 from flask import redirect
 from flask import url_for
-from flask import flash
 from flask import session
+
+
 app = Flask(__name__)
 
 
 @app.route('/')
 def home():
     """home page displayed on startup"""
-    if 'name' and 'password' in session:
-        return render_template('index.html', name=session['name'])
-    return render_template('index.html')
+    if not session.get('logged_in'):
+        return render_template('home.html')
+    else:
+        return render_template('snakesnap.html',
+                               username=session.get('username'))
 
 
 @app.route('/snakesnap')
 def snakesnap():
     """main user functions"""
-    logon = None
-    if os.path.exists('login.json'):
-        with open('login.json', 'r') as login:
-            logon = json.load(login)
-    return render_template('snakesnap.html', logon=logon)
+    if not session.get('logged_in'):
+        return render_template('snakesnap.html', status=False)
+    return render_template('snakesnap.html', username=session.get('username'))
 
 
-@app.route('/signIn', methods=['GET', 'POST'])
-def signIn():
-    """ Main signin page"""
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    """ Main signin page username control logic is
+    in the html form via bootstrap css, so we don't
+    need to handle errors"""
     if request.method == 'POST':
-        login_keys = request.form
-        username = request.form['name']
-        flash('Welcome '+username+' you are logged in')
-        with open('login.json', 'w') as logon:
-            json.dump(login_keys, logon)
+        session['logged_in'] = True
+        session['username'] = request.form['username']
+        session['email'] = request.form['email']
+        session['password'] = request.form['password']
+        flash('Welcome '+session['username']+' you are logged in')
         return redirect(url_for('snakesnap'))
     return render_template('signin.html')
 
 
-@app.route('/logout', method=['POST'])
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     """ make logout function"""
-    pass
+    session['logged_in'] = False
+    return home()
 
 # Fix login and logout stuff. get that figured out as session cookies.
 # use this https://pythonspot.com/en/login-authentication-with-flask/
@@ -54,5 +58,5 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'nick'
+    app.secret_key = os.urandom(12)
     app.run(debug=True)
