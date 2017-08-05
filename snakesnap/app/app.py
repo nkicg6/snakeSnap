@@ -7,6 +7,8 @@ from flask import flash
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask import Response
+from camera import Camera # video streaming
 
 
 app = Flask(__name__)
@@ -52,12 +54,16 @@ def logout():
     return home()
 
 
-@app.route('/snakesnap')
+@app.route('/video_feed')
 def video_feed():
-    """TODO will contain video feed
-    https://github.com/miguelgrinberg/flask-video-streaming/blob/\
-    master/camera_pi.py"""
-    pass
+    return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield(b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/snakesnap')
@@ -66,12 +72,10 @@ def get_files():
     pass
 
 
-# Fix login and logout stuff. get that figured out as session cookies.
 # use this https://pythonspot.com/en/login-authentication-with-flask/
 # and http://flask.pocoo.org/docs/0.12/quickstart/
-# TODO reorganize into header/ footer, and name index page index.
 
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
