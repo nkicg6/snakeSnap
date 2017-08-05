@@ -8,6 +8,11 @@ from flask import redirect
 from flask import url_for
 from flask import session
 
+
+__author__ = """Nicholas George"""
+__email__ = 'nicholas.m.george@ucdenver.edu'
+__version__ = '0.1.0'
+
 app = Flask(__name__)
 
 

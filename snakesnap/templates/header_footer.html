@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <title>Snake Snap</title>
+ 
+ 
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span></span> </button>
+                {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a>
+                    </li>
+                    <li role="presentation"><a href="{{url_for('snakesnap')}}">SnakeSnap</a>
+                    </li>
+                    {% if session['logged_in']== True %}
+                    <li role="presentation"><a href="{{url_for('logout')}}">Logout</a>
+                        {% else %}
+                    <li role="presentation"><a href="{{url_for('signin')}}">Sign in</a>
+                    </li>                        
+                    {% endif %}
+                </ul>
+            </nav>
+            <h3 class="text-muted">Snake Snap version 0.5</h3>
+        </div>
+ <!-- end header-->
+{% block content %}
+
+{% endblock content %}
+<!--footer-->
+        <footer class="footer">
+            <p>&copy; CU Denver Neuroscience Outreach 2017</p>
+        </footer>
+ 
+    </div>
+</body> 
+</html>
