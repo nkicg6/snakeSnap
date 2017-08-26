@@ -1,0 +1,38 @@
+#+TITLE: Getting started with Snakesnap
+#+DATE: 2017-08-26
+#+OPTIONS: toc:nil author:nil title:nil date:nil num:nil ^:{} \n:1 todo:nil
+#+PROPERTY: header-args :exports both :eval no
+#+LATEX_HEADER: \usepackage[margin=1.0in]{geometry}
+#+LATEX_HEADER: \hypersetup{citecolor=black,colorlinks=true,urlcolor=blue,linkbordercolor=blue,pdfborderstyle={/S/U/W 1}}
+#+LATEX_HEADER: \usepackage[round]{natbib}
+#+LATEX_HEADER: \renewcommand{\bibsection}
+Welcome to Snakesnap! Please not this project is under active development and we welcome contributors. See *contributing* for more information on getting involved. 
+** About
+   Snakesnap is a project we built as part of the CU Denver Neuroscience program outreach event /Fantastic brains and where to find them/ at the Denver Science Museum in 2017. The focus of the event was how different and cool the brains and senses of different animals are. Snakesnap is meant to demonste "thermal vision" that snakes have thanks to their [[ http://www.nature.com/news/2010/100314/full/news.2010.122.html][pit organs]]. 
+The first version was a really ugly command line script which prompted for name and email and then took and emailed a thermal picture of the user. Since then, we have been working on improving the system and especially designing a nice user interface so that anyone can set up and use this Snakesnap.
+For this reason, snakesnap has been redesigned into a [[http://flask.pocoo.org/][Flask]] application that runs locally on a raspberry pi. In the spirit of open science and education, Snakesnap software is released under the [[http://www.gnu.org/licenses/][GNU GPLv3]].
+
+   I will start with wiring and getting the lepton module tested and working, before moving on to using the Snakesnap 
+** Wiring
+Below is a [[http://fritzing.org/home/][Fritzing]] 
+*TODO* Fritzing diagram
+
+Connect the pins like so:
+
+| FliR Module | Pi               |
+|-------------+------------------|
+| CS          | CEO (24)         |
+| MOSI        | MOSI (19)        |
+| MISO        | MISO (21)        |
+| Clk         | SCLK (23)        |
+| GND         | GND (any ground) |
+| VIN         | 3.3V             |
+| SDA         | SDA (3)          |
+| SCL         | SCL (5)          |
+
+I'd recommend using a breakout board and plugging these in via a 
+* References
+  bibliographystyle:apalike
+  bibliography:~/Dropbox/bibliography/library.bib
+
+
