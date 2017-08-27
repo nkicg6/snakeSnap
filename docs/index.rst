@@ -1,4 +1,5 @@
 Welcome to snakesnap's documentation!
+
 ======================================
 
 Contents:
