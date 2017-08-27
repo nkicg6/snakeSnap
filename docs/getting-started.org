@@ -8,18 +8,21 @@
 #+LATEX_HEADER: \renewcommand{\bibsection}
 Welcome to Snakesnap! Please not this project is under active development and we welcome contributors. See *contributing* for more information on getting involved. 
 ** About
-   Snakesnap is a project we built as part of the CU Denver Neuroscience program outreach event /Fantastic brains and where to find them/ at the Denver Science Museum in 2017. The focus of the event was how different and cool the brains and senses of different animals are. Snakesnap is meant to demonste "thermal vision" that snakes have thanks to their [[ http://www.nature.com/news/2010/100314/full/news.2010.122.html][pit organs]]. 
+   Snakesnap is a project we built as part of the CU Denver Neuroscience program outreach event /Fantastic brains and where to find them/ at the Denver Science Museum in 2017. The focus of the event was how different and cool the brains and senses of different animals are. Snakesnap is meant to demonstrate "thermal vision" that snakes have thanks to their [[https://en.wikipedia.org/wiki/Infrared_sensing_in_snakes][pit organs]] 
 The first version was a really ugly command line script which prompted for name and email and then took and emailed a thermal picture of the user. Since then, we have been working on improving the system and especially designing a nice user interface so that anyone can set up and use this Snakesnap.
-For this reason, snakesnap has been redesigned into a [[http://flask.pocoo.org/][Flask]] application that runs locally on a raspberry pi. In the spirit of open science and education, Snakesnap software is released under the [[http://www.gnu.org/licenses/][GNU GPLv3]].
+For this reason, snakesnap has been redesigned into a [[http://flask.pocoo.org/][Flask]] application that runs locally on a raspberry pi. While initial installation will require some command-line activity, I will try to walk you through it as best I can in this guide. Please don't hesitate to contact us if you have issues. 
+In the spirit of open science and education, Snakesnap software is released under the [[http://www.gnu.org/licenses/][GNU GPLv3]].
 
    I will start with wiring and getting the lepton module tested and working, before moving on to using the Snakesnap 
+
 ** Wiring
 Below is a [[http://fritzing.org/home/][Fritzing]] 
+
 *TODO* Fritzing diagram
 
 Connect the pins like so:
 
-| FliR Module | Pi               |
+| FliR Module | Raspberry Pi 3B+ |
 |-------------+------------------|
 | CS          | CEO (24)         |
 | MOSI        | MOSI (19)        |
@@ -30,7 +33,70 @@ Connect the pins like so:
 | SDA         | SDA (3)          |
 | SCL         | SCL (5)          |
 
-I'd recommend using a breakout board and plugging these in via a 
+I'd recommend using a breakout board and plugging these in via a breadboard, there are a lot of wires to connect. 
+
+Now you should plug in your picamera and follow [[https://www.raspberrypi.org/learning/getting-started-with-picamera/worksheet/][this guide]] to ensure the camera is set up properly. 
+
+** Enabling the camera and I_{2}C and SPI
+   If you followed the camera tutorial, you should have entred the Raspberry Pi Configuration and enabled the camera. We now need to enable I_{2}C and SPI. Click *Start > Preferences > Raspberry Pi Configuration* and Enable I2C and SPI. I believe this only uses SPI, but enable them both. For more information on what these do, see the [[https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus][SPI wikipedia]], which links to I_{2}C as well.
+
+Reboot your pi by typing
+
+#+BEGIN_SRC bash :results verbatim 
+sudo shutdown -r now
+#+END_SRC
+
+** Test the camera
+Lets make sure the camera is working. 
+
+If this is your first time using the pi, open a terminal and type
+#+BEGIN_SRC bash :results verbatim 
+sudo apt-get install python pip
+sudo pip install picamera
+#+END_SRC
+
+Then, copy this script into a text editor, save it as camera-test.py in your home folder. 
+
+#+BEGIN_SRC python :session *ipython* :results output
+#!/usr/bin/env python
+from time import sleep
+from picamera import PiCamera
+
+camera = PiCamera()
+camera.start_preview()
+sleep(2)
+camera.stop_preview()
+print('Test complete')
+#+END_SRC
+
+Type the following in the terminal:
+
+#+BEGIN_SRC bash :results verbatim 
+python camera-test.py
+#+END_SRC
+
+You will either see the camera take over the screen for 2 seconds before turning off, or you will see an error. If you see an error, return to the picamera [[https://www.raspberrypi.org/documentation/usage/camera/python/README.md][setup page]].
+
+** Testing FliR Lepton Thermal module
+[[https://learn.sparkfun.com/tutorials/flir-lepton-hookup-guide][Sparkfun]] has an excellent tutorial for setting up the FliR Lepton module. Please follow the instructions on this page, which walks you through compiling a C++ Qt video program to test the FliR module. The most common error is the red square problem. If this happens to you, DOUBLE CHECK YOUR WIRING FIRST! I spend an entire day troubleshooting this and it turned out my wiring was totally off... Always start with the simplest source of error before moving on. If this doesn't work for you, try googling around, there are a bunch of google groups where people suggest fixes. 
+** Python controls
+First, lets install the python pylepton project. 
+
+#+BEGIN_SRC bash :results verbatim 
+sudo pip install pylepton
+#+END_SRC
+
+Then, install some dependencies
+
+#+BEGIN_SRC bash :results verbatim 
+sudo apt-get install python-opencv python-numpy
+#+END_SRC
+
+** Snakesnap interface
+
+*TODO* 
+
+
 * References
   bibliographystyle:apalike
   bibliography:~/Dropbox/bibliography/library.bib
