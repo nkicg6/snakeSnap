@@ -3,8 +3,8 @@ import io
 import threading
 import picamera
 
-#TODO set up try except to kill threads on any type of exit. 
-#TODO set up functions to take picture. 
+#TODO set up try except to kill threads on any type of exit.
+#TODO set up functions to take picture.
 
 class Camera(object):
     thread = None  # background thread that reads frames from camera
@@ -15,16 +15,21 @@ class Camera(object):
         if Camera.thread is None:
             # start background frame thread
             Camera.thread = threading.Thread(target=self._thread)
-            Camera.thread.start()
+            Camera.thread.setDaemon(True)
+            try:
 
-            # wait until frames start to be available
-            while self.frame is None:
-                time.sleep(0)
+                Camera.thread.start()
+                while self.frame is None:
+                    time.sleep(0)
+            except(KeyboardInterrupt, SystemExit):
+                cleanup_stop_thread()
+
 
     def get_frame(self):
         Camera.last_access = time.time()
         self.initialize()
         return self.frame
+
 
     @classmethod
     def _thread(cls):
@@ -54,4 +59,3 @@ class Camera(object):
                 if time.time() - cls.last_access > 10:
                     break
         cls.thread = None
-

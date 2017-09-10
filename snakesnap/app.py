@@ -8,7 +8,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import Response
-# from camera import Camera  # video streaming
+from camera import Camera  # video streaming
 
 
 app = Flask(__name__)
