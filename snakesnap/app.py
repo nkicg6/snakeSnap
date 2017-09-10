@@ -14,6 +14,14 @@ from flask import Response
 app = Flask(__name__)
 
 
+SNAKESNAP_FILES = os.path.join('static', 'snakesnap_files/')
+app.config['SNAKESNAP_FILES'] = SNAKESNAP_FILES
+
+# make snakesnap file directory if it doesn't exist.
+if not os.path.isdir(SNAKESNAP_FILES):
+    os.mkdir(SNAKESNAP_FILES)
+
+
 @app.route('/')
 def home():
     """home page displayed on startup"""
@@ -27,9 +35,11 @@ def home():
 @app.route('/snakesnap')
 def snakesnap():
     """main user functions """
+    raw_files = os.listdir(SNAKESNAP_FILES)
+    files = [file for file in raw_files if file.endswith('png')]
     if not session.get('logged_in'):
-        return render_template('snakesnap.html', status=False)
-    return render_template('snakesnap.html', username=session.get('username'))
+        return render_template('snakesnap.html', status=False, files = files)
+    return render_template('snakesnap.html', username=session.get('username', files = files))
 
 
 @app.route('/signin', methods=['GET', 'POST'])
@@ -56,7 +66,10 @@ def logout():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
+    try:
+        return Response(gen(Camera()), mimetype='multipart/x-mixed-replace;boundary=frame')
+    except:
+        pass
 
 
 def gen(camera):
@@ -64,14 +77,6 @@ def gen(camera):
         frame = camera.get_frame()
         yield(b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
-@app.route('/snakesnap')
-def get_files(path):
-    """ will return the file list if it exists"""
-    raw_files = os.listdir(path)
-    files = [file for file in raw_files if file.endswith('png')]
-    return files
 
 
 # use this https://pythonspot.com/en/login-authentication-with-flask/

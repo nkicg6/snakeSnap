@@ -9,23 +9,27 @@
             {% endif %}
         </div>
 <div class="container-fluid" style="background-color:grey">
-  <h1>Main operations here</h1>
+
+
+  <h1>Snakesnap controls</h1>
    <div class="row">
     <div class="col-md-8 col-lg-8" style="background-color:#C0392B;">
-        <img src="{{ url_for('video_feed')}}">
+        <img src="{{ url_for('video_feed')}}" alt="Cant connect to feed">
     </div>
     <div class="col-md-4 col-lg-4" style="background-color:#E67E22;">
         {% if files %}
         {% for file in files %}
         <ul>
             <li>
-                <a href="{{file}}"></a>
+                <a href="static/snakesnap_files/{{file}}" target="_blank">{{file}}</a>
+                <img src="static/snakesnap_files/{{file}}" title="file" alt="file" style="width:60px;height=60px;">
                 </li>
         </ul>
         {% endfor %}
         {% else %}
-        <p>No snake snap files found... yet! </p>
+        <p>No snakesnap photos found... yet</p>
         {% endif %}
+
     </div>
   </div>
 <div class="col-md-4 col-lg-4">
