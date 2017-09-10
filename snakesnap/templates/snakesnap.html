@@ -8,5 +8,28 @@
             <p> You are not logged in. Please click <a href="{{url_for('signin')}}">here</a> to send emails</p>
             {% endif %}
         </div>
-<h3> Snake snap functions here </h3>           
+<div class="container-fluid" style="background-color:grey">
+  <h1>Main operations here</h1>
+   <div class="row">
+    <div class="col-md-8 col-lg-8" style="background-color:#C0392B;">
+        <img src="{{ url_for('video_feed')}}">
+    </div>
+    <div class="col-md-4 col-lg-4" style="background-color:#E67E22;">
+        {% if files %}
+        {% for file in files %}
+        <ul>
+            <li>
+                <a href="{{file}}"></a>
+                </li>
+        </ul>
+        {% endfor %}
+        {% else %}
+        <p>No snake snap files found... yet! </p>
+        {% endif %}
+    </div>
+  </div>
+<div class="col-md-4 col-lg-4">
+    <button id="btnSignUp" class="btn btn-md btn-primary btn-block" type="submit">Snap</button>
+</div>
+</div>
 {% endblock content %}

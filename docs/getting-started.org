@@ -95,10 +95,3 @@ sudo apt-get install python-opencv python-numpy
 ** Snakesnap interface
 
 *TODO* 
-
-
-* References
-  bibliographystyle:apalike
-  bibliography:~/Dropbox/bibliography/library.bib
-
-

@@ -8,7 +8,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import Response
-from camera import Camera # video streaming
+# from camera import Camera  # video streaming
 
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def home():
 
 @app.route('/snakesnap')
 def snakesnap():
-    """main user functions"""
+    """main user functions """
     if not session.get('logged_in'):
         return render_template('snakesnap.html', status=False)
     return render_template('snakesnap.html', username=session.get('username'))
@@ -67,9 +67,11 @@ def gen(camera):
 
 
 @app.route('/snakesnap')
-def get_files():
+def get_files(path):
     """ will return the file list if it exists"""
-    pass
+    raw_files = os.listdir(path)
+    files = [file for file in raw_files if file.endswith('png')]
+    return files
 
 
 # use this https://pythonspot.com/en/login-authentication-with-flask/
