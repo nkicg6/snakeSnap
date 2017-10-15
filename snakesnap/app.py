@@ -8,7 +8,9 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from flask import Response
-from camera import Camera  # video streaming
+import cv2
+#from camera import Camera  # video streaming
+from leptonclass import ThermalCamera
 
 
 app = Flask(__name__)
@@ -20,6 +22,9 @@ app.config['SNAKESNAP_FILES'] = SNAKESNAP_FILES
 # make snakesnap file directory if it doesn't exist.
 if not os.path.isdir(SNAKESNAP_FILES):
     os.mkdir(SNAKESNAP_FILES)
+
+thermal_class = ThermalCamera()
+
 
 
 @app.route('/')
@@ -67,16 +72,40 @@ def logout():
 @app.route('/video_feed')
 def video_feed():
     try:
-        return Response(gen(Camera()), mimetype='multipart/x-mixed-replace;boundary=frame')
-    except:
-        pass
+        return Response(thermal(thermal_class), mimetype='multipart/x-mixed-replace;boundary=frame')
+    except Exception as e:
+        print('video_feed exception {}'.format(e))
+        thermal_class.stop()
+#@app.route('/video_feed')
+#def video_feed():
+#    try:
+#        return Response(gen(Camera()), mimetype='multipart/x-mixed-replace;boundary=frame')
+#    except:
+#        pass
 
 
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield(b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+# def gen(camera):
+#    while True:
+#        frame = camera.get_frame()
+#        yield(b'--frame\r\n'
+#               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
+def thermal(thermal_class):
+    try:
+        thermal_class.start_thermal_thread()
+        while True:
+            frame = thermal_class.read()
+
+            print('getting img')
+            print(frame.shape)
+            frame = cv2.imencode('.jpg', frame)[1].tobytes()
+            yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    except Exception as e:
+        thermal_class.stop()
+        print('thermal exception {}'.format(e))
+
+
 
 
 # use this https://pythonspot.com/en/login-authentication-with-flask/
