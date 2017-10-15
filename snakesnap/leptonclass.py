@@ -32,6 +32,7 @@ class ThermalCamera:
         self.stopped = True
         self.frame = None
         self.thermal_stream = self.stream()
+        self.streamed_img = None
 
     def start_thermal_thread(self):
         """

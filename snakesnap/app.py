@@ -1,5 +1,6 @@
 """flask UI for snakesnap"""
 import os
+import time
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -68,11 +69,14 @@ def logout():
     session['logged_in'] = False
     return home()
 
-
+# may be helpful flask.pocoo.org/docs/0.12/patterns/streaming/
 @app.route('/video_feed')
 def video_feed():
     try:
-        return Response(thermal(thermal_class), mimetype='multipart/x-mixed-replace;boundary=frame')
+        print('')
+        print('posting image')
+        print('')
+        return Response(thermal(thermal_class).next(), mimetype='multipart/x-mixed-replace;boundary=frame')
     except Exception as e:
         print('video_feed exception {}'.format(e))
         thermal_class.stop()
@@ -94,13 +98,12 @@ def video_feed():
 def thermal(thermal_class):
     try:
         thermal_class.start_thermal_thread()
-        while True:
-            frame = thermal_class.read()
+        frame = thermal_class.read()
 
-            print('getting img')
-            print(frame.shape)
-            frame = cv2.imencode('.jpg', frame)[1].tobytes()
-            yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        print('getting img')
+        print(frame.shape)
+        frame = cv2.imencode('.jpg', frame)[1].tobytes()
+        yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:
         thermal_class.stop()
         print('thermal exception {}'.format(e))
